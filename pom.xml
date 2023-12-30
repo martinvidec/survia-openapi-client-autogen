@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>at.videc.survia</groupId>
+    <artifactId>survia-openapi-client-autogen</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <packaging>pom</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <!--                https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-maven-plugin/README.md-->
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <!-- RELEASE_VERSION -->
+                <version>7.2.0</version>
+                <!-- /RELEASE_VERSION -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/survia-node-api.json</inputSpec>
+                            <!--                            https://openapi-generator.tech/docs/generators/java-->
+                            <generatorName>java</generatorName>
+                            <!--                            <generatorName>spring</generatorName>-->
+                            <packageName>at.videc.survia.restclient</packageName>
+                            <output>${project.build.directory}/generated-client</output>
+                            <configOptions>
+                                <useJakartaEe>true</useJakartaEe>
+                                <library>native</library>
+                                <invokerPackage>at.videc.survia.restclient</invokerPackage>
+                                <apiPackage>at.videc.survia.restclient.api</apiPackage>
+                                <modelPackage>at.videc.survia.restclient.model</modelPackage>
+                                <groupId>at.videc.survia</groupId>
+                                <artifactId>survia-rest-client</artifactId>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
