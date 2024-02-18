@@ -9,9 +9,16 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- survia-api-version to build against -->
+        <survia.api.version>0.0.4</survia.api.version>
+
+        <!--        to generate additional clients add an execution-->
+        <!--        available libraries see: https://openapi-generator.tech/docs/generators/java-->
+        <at.videc.survia.restclient.library.default>okhttp-gson</at.videc.survia.restclient.library.default>
     </properties>
 
     <packaging>pom</packaging>
@@ -26,20 +33,23 @@
                 <version>7.2.0</version>
                 <!-- /RELEASE_VERSION -->
                 <executions>
+                    <!--        default library-->
+                    <!--        to generate additional clients add an execution-->
                     <execution>
+                        <id>generate-default-client</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/survia-node-api.json</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/survia-node-api-${survia.api.version}.json</inputSpec>
                             <!--                            https://openapi-generator.tech/docs/generators/java-->
                             <generatorName>java</generatorName>
                             <!--                            <generatorName>spring</generatorName>-->
                             <packageName>at.videc.survia.restclient</packageName>
-                            <output>${project.build.directory}/generated-client</output>
+                            <output>${project.build.directory}/generated-clients/default</output>
                             <configOptions>
                                 <useJakartaEe>true</useJakartaEe>
-                                <library>native</library>
+                                <library>${at.videc.survia.restclient.library.default}</library>
                                 <invokerPackage>at.videc.survia.restclient</invokerPackage>
                                 <apiPackage>at.videc.survia.restclient.api</apiPackage>
                                 <modelPackage>at.videc.survia.restclient.model</modelPackage>
@@ -48,6 +58,82 @@
                             </configOptions>
                         </configuration>
                     </execution>
+
+                    <!--        native java client for Java 11+ -->
+                    <execution>
+                        <id>generate-native-client</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/survia-node-api-${survia.api.version}.json</inputSpec>
+                            <!--                            https://openapi-generator.tech/docs/generators/java-->
+                            <generatorName>java</generatorName>
+                            <!--                            <generatorName>spring</generatorName>-->
+                            <packageName>at.videc.survia.restclient</packageName>
+                            <output>${project.build.directory}/generated-clients/native</output>
+                            <configOptions>
+                                <useJakartaEe>true</useJakartaEe>
+                                <library>native</library>
+                                <invokerPackage>at.videc.survia.restclient</invokerPackage>
+                                <apiPackage>at.videc.survia.restclient.api</apiPackage>
+                                <modelPackage>at.videc.survia.restclient.model</modelPackage>
+                                <groupId>at.videc.survia</groupId>
+                                <artifactId>survia-rest-client-native</artifactId>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+
+                    <!-- resttemplate client for spring-boot in order to enable tracing -->
+                    <execution>
+                        <id>generate-resttemplate-client</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/survia-node-api-${survia.api.version}.json</inputSpec>
+                            <!--                            https://openapi-generator.tech/docs/generators/java-->
+                            <generatorName>java</generatorName>
+                            <!--                            <generatorName>spring</generatorName>-->
+                            <packageName>at.videc.survia.restclient</packageName>
+                            <output>${project.build.directory}/generated-clients/resttemplate</output>
+                            <configOptions>
+                                <useJakartaEe>true</useJakartaEe>
+                                <library>resttemplate</library>
+                                <invokerPackage>at.videc.survia.restclient</invokerPackage>
+                                <apiPackage>at.videc.survia.restclient.api</apiPackage>
+                                <modelPackage>at.videc.survia.restclient.model</modelPackage>
+                                <groupId>at.videc.survia</groupId>
+                                <artifactId>survia-rest-client-resttemplate</artifactId>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+
+                    <!--        spring boot rest server  -->
+                    <execution>
+                        <id>generate-spring-server</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/survia-node-api-${survia.api.version}.json</inputSpec>
+                            <!--                            https://openapi-generator.tech/docs/generators/java-->
+                            <generatorName>spring</generatorName>
+                            <!--                            <generatorName>spring</generatorName>-->
+                            <packageName>at.videc.survia.restserver</packageName>
+                            <output>${project.build.directory}/generated-servers/spring</output>
+                            <configOptions>
+<!--                                <useJakartaEe>true</useJakartaEe>-->
+                                <library>spring-boot</library>
+                                <invokerPackage>at.videc.survia.restserver</invokerPackage>
+                                <apiPackage>at.videc.survia.restserver.api</apiPackage>
+                                <modelPackage>at.videc.survia.restserver.model</modelPackage>
+                                <groupId>at.videc.survia</groupId>
+                                <artifactId>survia-rest-server-spring</artifactId>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+
                 </executions>
             </plugin>
         </plugins>

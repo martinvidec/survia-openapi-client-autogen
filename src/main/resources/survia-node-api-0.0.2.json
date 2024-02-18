@@ -7,7 +7,7 @@
       "name": "GPLv3",
       "url": "http://www.gnu.org/licenses/gpl-3.0.html"
     },
-    "version": "1.0.0"
+    "version": "0.0.2"
   },
   "externalDocs": {
     "description": "Survia Online Documentation",
@@ -15,12 +15,12 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8088/",
+      "url": "http://localhost:8280",
       "description": "Generated server url"
     }
   ],
   "paths": {
-    "/datasets": {
+    "/api/datasets": {
       "get": {
         "tags": [
           "dataset-entity-controller"
@@ -116,7 +116,7 @@
         }
       }
     },
-    "/datasets/{id}": {
+    "/api/datasets/{id}": {
       "get": {
         "tags": [
           "dataset-entity-controller"
@@ -269,7 +269,7 @@
         }
       }
     },
-    "/profile": {
+    "/api/profile": {
       "get": {
         "tags": [
           "profile-controller"
@@ -289,7 +289,7 @@
         }
       }
     },
-    "/profile/datasets": {
+    "/api/profile/datasets": {
       "get": {
         "tags": [
           "profile-controller"
@@ -333,23 +333,13 @@
                 "schema": {
                   "$ref": "#/components/schemas/ApplicationResponse"
                 }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              },
-              "application/prs.hal-forms+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
               }
             }
           }
         }
       }
     },
-    "/datasets/search": {
+    "/api/datasets/search": {
       "get": {
         "tags": [
           "dataset-controller"
@@ -489,11 +479,8 @@
             "type": "string"
           },
           "logo": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "byte"
-            }
+            "type": "string",
+            "format": "byte"
           },
           "externalId": {
             "type": "string"
@@ -517,11 +504,8 @@
             "type": "string"
           },
           "logo": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "byte"
-            }
+            "type": "string",
+            "format": "byte"
           },
           "externalId": {
             "type": "string"
@@ -591,11 +575,8 @@
             "type": "string"
           },
           "logo": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "byte"
-            }
+            "type": "string",
+            "format": "byte"
           },
           "externalId": {
             "type": "string"
